@@ -1,0 +1,51 @@
+<div class="card">
+    <div class="card-header">EMPLOYEES</div>
+    <div class="card-body p-0">
+        <table class="table mb-0">
+            <thead>
+                <tr>
+                    <th>Employee ID</th>
+                    <th>Account</th>
+                    <th>Position</th>
+                    <th>Department</th>
+                    <th>Hire Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let employee of employees">
+                    <td>{{employee.employeeId}}</td>
+                    <td>{{employee.account}}</td>
+                    <td>{{employee.position}}</td>
+                    <td>{{employee.department}}</td>
+                    <td>{{employee.hireDate | date:'M/d/yyyy'}}</td>
+                    <td>
+                        <span 
+                            class="badge px-2 py-1 rounded-pill fw-semibold"
+                            [ngClass]="{
+                            'bg-success text-light': employee.isActive,
+                            'bg-secondary text-light': !employee.isActive
+                            }">
+                            <i 
+                            class="fas" 
+                            [ngClass]="employee.isActive ? 'fa-check-circle me-1' : 'fa-times-circle me-1'">
+                            </i>
+                            {{ employee.isActive ? 'Active' : 'Inactive' }}
+                        </span>
+                        </td>
+
+                    <td>
+                        <button class="btn btn-info btn-sm me-1" (click)="viewRequests(employee.id)">Requests</button>
+                        <button class="btn btn-info btn-sm me-1" (click)="viewWorkflows(employee.id)">Workflows</button>
+                        <button class="btn btn-warning btn-sm me-1" (click)="transfer(employee.id)">Transfer</button>
+                        <button class="btn btn-primary btn-sm" (click)="edit(employee.id)">Edit</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="card-footer text-end">
+        <button class="btn btn-primary" (click)="add()">Add Employee</button>
+    </div>
+</div>

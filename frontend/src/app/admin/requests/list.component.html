@@ -1,0 +1,89 @@
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">Requests</h2>
+        <button class="btn btn-primary d-flex align-items-center gap-2" routerLink="add">
+            <i class="fas fa-plus"></i> Create Request
+        </button>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Type</th>
+                            <th>Description</th>
+                            <th>Status</th>
+                            <th>Employee</th>
+                            <th>Items</th>
+                            <th>Created</th>
+                            <th *ngIf="isAdmin">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngIf="loading">
+                            <td colspan="7" class="text-center py-5">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr *ngIf="!loading && requests.length === 0">
+                            <td colspan="7" class="text-center py-5">
+                                <i class="fas fa-inbox fa-2x text-muted mb-2"></i><br>
+                                <span class="text-muted">No requests found</span>
+                            </td>
+                        </tr>
+                        <tr *ngFor="let request of requests" class="table-row-hover">
+                            <td>{{request.type | titlecase}}</td>
+                            <td>{{request.description}}</td>
+                            <td>
+                                <span [ngClass]="{
+                                    'badge bg-warning': request.status === 'Pending',
+                                    'badge bg-success': request.status === 'Approved',
+                                    'badge bg-danger': request.status === 'Rejected'
+                                }">
+                                    {{request.status}}
+                                </span>
+                            </td>
+                            <td>
+                                {{request.employee?.firstName}} {{request.employee?.lastName}}
+                                <small class="d-block text-muted">{{request.employee?.position}}</small>
+                            </td>
+                            <td>
+                                <ul class="list-unstyled mb-0">
+                                    <li *ngFor="let item of request.items">
+                                        {{item.description}} ({{item.quantity}})
+                                    </li>
+                                </ul>
+                            </td>
+                            <td>{{request.createdAt | date:'medium'}}</td>
+                            <td *ngIf="isAdmin">
+                                <div class="btn-group gap-1">
+                                    <button class="btn btn-sm btn-success d-flex align-items-center gap-1" 
+                                            *ngIf="request.status === 'Pending'"
+                                            (click)="approveRequest(request.id)"
+                                            title="Approve">
+                                        <i class="fas fa-check"></i> <span>Approve</span>
+                                    </button>
+                                    <button class="btn btn-sm btn-danger d-flex align-items-center gap-1" 
+                                            *ngIf="request.status === 'Pending'"
+                                            (click)="rejectRequest(request.id)"
+                                            title="Reject">
+                                        <i class="fas fa-times"></i> <span>Reject</span>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-danger d-flex align-items-center gap-1" 
+                                            (click)="deleteRequest(request.id)"
+                                            title="Delete">
+                                        <i class="fas fa-trash"></i> <span>Delete</span>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

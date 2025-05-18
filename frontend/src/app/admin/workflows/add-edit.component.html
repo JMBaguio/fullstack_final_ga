@@ -1,0 +1,98 @@
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-header">
+                    <h4>{{isAddMode ? 'Add' : 'Edit'}} Workflow</h4>
+                </div>
+                <div class="card-body">
+                    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                        <div class="mb-3">
+                            <label class="form-label">Employee ID</label>
+                            <input type="text" formControlName="employeeId" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.employeeId.errors }" />
+                            <div *ngIf="submitted && f.employeeId.errors" class="invalid-feedback">
+                                <div *ngIf="f.employeeId.errors.required">Employee ID is required</div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Type</label>
+                            <select formControlName="type" class="form-select" [ngClass]="{ 'is-invalid': submitted && f.type.errors }">
+                                <option value="">Select Type</option>
+                                <option value="onboarding">Onboarding</option>
+                                <option value="offboarding">Offboarding</option>
+                                <option value="transfer">Transfer</option>
+                                <option value="promotion">Promotion</option>
+                            </select>
+                            <div *ngIf="submitted && f.type.errors" class="invalid-feedback">
+                                <div *ngIf="f.type.errors.required">Type is required</div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Status</label>
+                            <select formControlName="status" class="form-select" [ngClass]="{ 'is-invalid': submitted && f.status.errors }">
+                                <option value="pending">Pending</option>
+                                <option value="in_progress">In Progress</option>
+                                <option value="completed">Completed</option>
+                                <option value="rejected">Rejected</option>
+                            </select>
+                            <div *ngIf="submitted && f.status.errors" class="invalid-feedback">
+                                <div *ngIf="f.status.errors.required">Status is required</div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Start Date</label>
+                            <input type="datetime-local" formControlName="startDate" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.startDate.errors }" />
+                            <div *ngIf="submitted && f.startDate.errors" class="invalid-feedback">
+                                <div *ngIf="f.startDate.errors.required">Start Date is required</div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">End Date</label>
+                            <input type="datetime-local" formControlName="endDate" class="form-control" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Description</label>
+                            <textarea formControlName="description" class="form-control" rows="3"></textarea>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Current Step</label>
+                                    <input type="number" formControlName="currentStep" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.currentStep.errors }" />
+                                    <div *ngIf="submitted && f.currentStep.errors" class="invalid-feedback">
+                                        <div *ngIf="f.currentStep.errors.required">Current Step is required</div>
+                                        <div *ngIf="f.currentStep.errors.min">Current Step must be at least 1</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Total Steps</label>
+                                    <input type="number" formControlName="totalSteps" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.totalSteps.errors }" />
+                                    <div *ngIf="submitted && f.totalSteps.errors" class="invalid-feedback">
+                                        <div *ngIf="f.totalSteps.errors.required">Total Steps is required</div>
+                                        <div *ngIf="f.totalSteps.errors.min">Total Steps must be at least 1</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <button [disabled]="loading" class="btn btn-primary">
+                                <span *ngIf="loading" class="spinner-border spinner-border-sm me-1"></span>
+                                {{isAddMode ? 'Create' : 'Update'}} Workflow
+                            </button>
+                            <button type="button" class="btn btn-link" [routerLink]="['../']">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

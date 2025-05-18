@@ -1,0 +1,89 @@
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-white border-bottom-0 pb-0">
+            <h4 class="mb-0">{{isAddMode ? 'Create' : 'Edit'}} Request</h4>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                <div class="mb-3">
+                    <label class="form-label" for="typeSelect">Request Type</label>
+                    <select id="typeSelect" formControlName="type" class="form-select" [ngClass]="{ 'is-invalid': submitted && f.type.errors }">
+                        <option value="">Select Request Type</option>
+                        <option *ngFor="let type of requestTypes" [value]="type">{{type | titlecase}}</option>
+                    </select>
+                    <div *ngIf="submitted && f.type.errors" class="invalid-feedback">
+                        <div *ngIf="f.type.errors.required">Type is required</div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="employeeSelect">Employee</label>
+                    <select id="employeeSelect" formControlName="employeeId" class="form-select" [ngClass]="{ 'is-invalid': submitted && f.employeeId.errors }">
+                        <option value="">Select Employee</option>
+                        <option *ngFor="let emp of employees" [value]="emp.id">
+                            {{ emp.employeeId }} - {{ emp.firstName }} {{ emp.lastName }} ({{ emp.position }})
+                        </option>
+                    </select>
+                    <div *ngIf="submitted && f.employeeId.errors" class="invalid-feedback">
+                        <div *ngIf="f.employeeId.errors.required">Employee is required</div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="descriptionInput">Description</label>
+                    <textarea id="descriptionInput" formControlName="description" class="form-control" rows="3" [ngClass]="{ 'is-invalid': submitted && f.description.errors }" placeholder="Enter a brief description..."></textarea>
+                    <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
+                        <div *ngIf="f.description.errors.required">Description is required</div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <label class="form-label mb-0">Request Items</label>
+                        <button type="button" class="btn btn-sm btn-primary d-flex align-items-center gap-1" (click)="addItem()">
+                            <i class="fas fa-plus"></i> <span>Add Item</span>
+                        </button>
+                    </div>
+                    <div formArrayName="items" class="items-container">
+                        <div *ngFor="let item of items.controls; let i = index" [formGroupName]="i" class="item-row mb-2">
+                            <div class="row g-2 align-items-center">
+                                <div class="col">
+                                    <label class="form-label" [for]="'itemDesc' + i">Item Description</label>
+                                    <input [id]="'itemDesc' + i" formControlName="description" class="form-control" placeholder="Item Description" [ngClass]="{ 'is-invalid': submitted && item.get('description').errors }">
+                                    <div *ngIf="submitted && item.get('description').errors" class="invalid-feedback">
+                                        <div *ngIf="item.get('description').errors.required">Description is required</div>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <label class="form-label" [for]="'itemQty' + i">Quantity</label>
+                                    <input type="number" [id]="'itemQty' + i" formControlName="quantity" class="form-control" style="width: 100px" [ngClass]="{ 'is-invalid': submitted && item.get('quantity').errors }">
+                                    <div *ngIf="submitted && item.get('quantity').errors" class="invalid-feedback">
+                                        <div *ngIf="item.get('quantity').errors.required">Quantity is required</div>
+                                        <div *ngIf="item.get('quantity').errors.min">Quantity must be at least 1</div>
+                                    </div>
+                                </div>
+                                <div class="col-auto d-flex align-items-end ">
+                                    
+                                    <button type="button" class="btn btn-sm btn-outline-danger mt-4 d-flex align-items-center gap-1" (click)="removeItem(i)" title="Remove Item">
+                                        <i class="fas fa-trash"></i> <span>Remove</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-between mt-4 gap-2">
+                    <button [disabled]="loading" class="btn btn-secondary px-4 d-flex align-items-center gap-2" routerLink="../">
+                        <i class="fas fa-times"></i> <span>Cancel</span>
+                    </button>
+                    <button [disabled]="loading" class="btn btn-primary px-4 d-flex align-items-center gap-2">
+                        <span *ngIf="loading" class="spinner-border spinner-border-sm me-1"></span>
+                        <i class="fas fa-save"></i> <span>{{isAddMode ? 'Create Request' : 'Update Request'}}</span>
+                    </button>
+                </div>
+               
+            </form>
+        </div>
+    </div>
+</div>

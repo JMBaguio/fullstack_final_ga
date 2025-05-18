@@ -1,0 +1,71 @@
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col">
+            <h2>{{employeeId ? 'Employee Workflows' : 'Workflows'}}</h2>
+            <div *ngIf="employeeId" class="text-muted">
+                Employee ID: {{employeeId}}
+            </div>
+        </div>
+        <div class="col text-end" *ngIf="!employeeId">
+            <button class="btn btn-primary" [routerLink]="['add']">Add Workflow</button>
+        </div>
+    </div>
+
+    
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Employee ID</th>
+                    <th>Details</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngIf="loading">
+                    <td colspan="6" class="text-center">Loading...</td>
+                </tr>
+                <tr *ngFor="let workflow of workflows">
+                    <td>{{workflow.employeeId}}</td>
+                    <td>{{workflow.type}}</td>
+                    
+                    <td>
+                        <span 
+                          class="badge px-2 py-1 rounded-pill fw-semibold"
+                          [ngClass]="{
+                            'bg-warning text-dark': workflow.status === 'pending',
+                            'bg-success text-light': workflow.status === 'approved',
+                            'bg-danger text-light': workflow.status === 'rejected'
+                          }">
+                          <i class="fas me-1"
+                             [ngClass]="{
+                               'fa-hourglass-half': workflow.status === 'pending',
+                               'fa-check-circle': workflow.status === 'approved',
+                               'fa-times-circle': workflow.status === 'rejected'
+                             }">
+                          </i>
+                          {{ workflow.status | titlecase }}
+                        </span>
+                      </td>
+                      
+                    
+                    <td>
+                        <select class="form-select" [ngModel]="workflow.status" (ngModelChange)="onStatusChange(workflow, $event)">
+                            <option value="pending">Pending</option>
+                            <option value="approved">Approved</option>
+                            <option value="rejected">Rejected</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr *ngIf="!loading && workflows.length === 0">
+                    <td colspan="6" class="text-center">No workflows found</td>
+                </tr>
+                <div class="text-end mt-4">
+                    <button [routerLink]="['/admin/employees']" class="btn btn-secondary">Back to Employees</button>
+            </div>
+            </tbody>
+        </table>
+    </div>
+</div>

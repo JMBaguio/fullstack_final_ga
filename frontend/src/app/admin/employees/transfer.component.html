@@ -1,0 +1,46 @@
+<div class="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Transfer Employee</h5>
+                <button type="button" class="btn-close" (click)="cancel()"></button>
+            </div>
+            <div class="modal-body">
+                <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+                <div *ngIf="success" class="alert alert-success">{{success}}</div>
+
+                <div class="alert alert-info mb-3">
+                    <strong>Employee:</strong> {{employee?.employeeId}} - {{employee?.account}}
+                    <br>
+                    <strong>Current Department:</strong> {{employee?.department}}
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">New Department</label>
+                    <select class="form-select" [(ngModel)]="departmentId" [ngClass]="{ 'is-invalid': submitted && !departmentId }">
+                        <option [ngValue]="null">Select Department</option>
+                        <option *ngFor="let dept of departments" [value]="dept.id">{{dept.name}}</option>
+                    </select>
+                    <div *ngIf="submitted && !departmentId" class="invalid-feedback">
+                        Department is required
+                    </div>
+                </div>
+
+                <div *ngIf="loading" class="text-center">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" (click)="cancel()" [disabled]="loading">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <button class="btn btn-primary" (click)="transfer()" [disabled]="loading">
+                    <i class="fas fa-exchange-alt"></i> Transfer
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-backdrop"></div>

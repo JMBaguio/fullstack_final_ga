@@ -1,0 +1,23 @@
+.progress {
+    height: 20px;
+    margin-bottom: 0;
+}
+
+.progress-bar {
+    line-height: 20px;
+    font-size: 12px;
+}
+
+.badge {
+    font-size: 12px;
+    padding: 5px 10px;
+}
+
+.btn-group {
+    display: flex;
+    gap: 5px;
+}
+
+.table td {
+    vertical-align: middle;
+} 

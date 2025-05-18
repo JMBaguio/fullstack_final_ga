@@ -1,0 +1,29 @@
+<div class="card">
+    <div class="card-header">DEPARTMENTS</div>
+    <div class="card-body p-0">
+        <table class="table mb-0">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Employee Count</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let department of departments">
+                    <td>{{department.name}}</td>
+                    <td>{{department.description}}</td>
+                    <td>{{department.employeeCount || 0}}</td>
+                    <td>
+                        <button class="btn btn-primary btn-sm me-1" (click)="edit(department.id)">Edit</button>
+                        <button class="btn btn-danger btn-sm" (click)="delete(department.id)">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="card-footer text-end">
+        <button class="btn btn-primary" (click)="add()">Add Department</button>
+    </div>
+</div>

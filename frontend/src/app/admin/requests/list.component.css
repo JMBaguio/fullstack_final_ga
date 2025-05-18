@@ -1,0 +1,46 @@
+.table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+}
+
+.badge {
+    font-size: 0.85em;
+    padding: 0.5em 0.75em;
+}
+
+.btn-group .btn {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+
+.btn-group .btn:hover, .btn-group .btn:focus {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    z-index: 1;
+}
+
+.list-unstyled li {
+    margin-bottom: 0.25rem;
+}
+
+.text-muted {
+    font-size: 0.875rem;
+}
+
+.table-row-hover:hover {
+    background-color: #f1f3f5;
+    transition: background 0.2s;
+}
+
+.card {
+    border-radius: 0.5rem;
+    border: 1px solid #e3e6ea;
+}
+
+.card-body {
+    padding: 2rem;
+}
+
+.table {
+    margin-bottom: 0;
+} 
